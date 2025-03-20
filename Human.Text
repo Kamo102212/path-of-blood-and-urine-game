@@ -89,6 +89,8 @@
       card.addEventListener('dragstart', dragStart);
       card.addEventListener('dragover', dragOver);
       card.addEventListener('drop', dropCard);
+      card.addEventListener('dragenter', dragEnter);
+      card.addEventListener('dragleave', dragLeave);
       cardContainer.appendChild(card);
     });
 
@@ -121,6 +123,14 @@
 
       draggedCard.classList.remove('dragging');
       draggedCard = null;
+    }
+
+    function dragEnter(e) {
+      e.target.style.borderColor = '#45a049'; // Highlight the card while dragging over it
+    }
+
+    function dragLeave(e) {
+      e.target.style.borderColor = '#000'; // Reset the border color
     }
 
     // Function to update the order of cards after dragging
