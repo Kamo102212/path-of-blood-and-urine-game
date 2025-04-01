@@ -15,20 +15,21 @@
     }
     .card-container {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
       margin-top: 20px;
     }
     .card {
-      width: 100px;
-      height: 150px;
-      margin: 10px;
+      width: 200px;
+      height: 50px;
+      margin: 5px 0;
       background-color: #ffffff;
       border: 2px solid #000;
       font-size: 18px;
       text-align: center;
       vertical-align: middle;
-      line-height: 150px;
+      line-height: 50px;
       cursor: pointer;
       user-select: none;
     }
@@ -99,11 +100,14 @@
 
     function dragStart(e) {
       draggedCard = e.target;
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/html', draggedCard.innerHTML);
       draggedCard.classList.add('dragging');
     }
 
     function dragOver(e) {
       e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
     }
 
     function dropCard(e) {
@@ -115,8 +119,13 @@
         const droppedIndex = [...cardContainer.children].indexOf(droppedCard);
 
         // Swap cards in the container
-        cardContainer.insertBefore(draggedCard, droppedCard);
-        cardContainer.insertBefore(droppedCard, cardContainer.children[draggedIndex]);
+        if (draggedIndex < droppedIndex) {
+          cardContainer.insertBefore(droppedCard, draggedCard);
+          cardContainer.insertBefore(draggedCard, cardContainer.children[droppedIndex]);
+        } else {
+          cardContainer.insertBefore(draggedCard, droppedCard);
+          cardContainer.insertBefore(droppedCard, cardContainer.children[draggedIndex]);
+        }
 
         updateCardOrder();
       }
@@ -152,3 +161,7 @@
   </script>
 </body>
 </html>
+   
+
+
+  
